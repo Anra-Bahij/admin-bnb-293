@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#556B2F">
+  <meta name="robots" content="noindex, nofollow">
+  <title>BnB Cemilan — Admin</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🍗%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/payment.css">
+</head>
+<body>
+
+  <!-- ================= LOGIN ================= -->
+  <section class="login" id="login" hidden>
+    <form class="login__card" id="loginForm" autocomplete="on">
+      <img src="assets/logo.png" alt="BnB Cemilan" class="login__logo">
+      <h1>Panel Admin</h1>
+      <p class="muted">Masuk untuk mengelola menu, pesanan, dan pendapatan.</p>
+      <label class="field"><span>Email</span>
+        <input type="email" id="loginEmail" autocomplete="username" required inputmode="email">
+      </label>
+      <label class="field"><span>Kata sandi</span>
+        <input type="password" id="loginPass" autocomplete="current-password" required>
+      </label>
+      <p class="form-error" id="loginError" role="alert" hidden></p>
+      <button class="btn btn--primary btn--block" type="submit" id="loginBtn">Masuk</button>
+    </form>
+  </section>
+
+  <!-- ================= APLIKASI ================= -->
+  <div class="shell" id="shell" hidden>
+    <aside class="side">
+      <div class="side__brand">
+        <img src="assets/logo.png" alt="BnB Cemilan">
+        <span>Admin</span>
+      </div>
+      <nav class="nav" id="nav" aria-label="Navigasi admin">
+        <button type="button" data-tab="dashboard" class="is-active"><i>📊</i><span>Laporan</span></button>
+        <button type="button" data-tab="orders"><i>🧾</i><span>Pesanan</span><b class="pill" id="newBadge" hidden>0</b></button>
+        <button type="button" data-tab="menu"><i>🍽️</i><span>Menu</span></button>
+        <button type="button" data-tab="categories"><i>🏷️</i><span>Jenis Menu</span></button>
+      </nav>
+      <div class="side__foot">
+        <p class="muted small" id="whoami"></p>
+        <button type="button" class="btn btn--ghost btn--sm" id="logoutBtn">Keluar</button>
+      </div>
+    </aside>
+
+    <div class="content">
+      <header class="topbar">
+        <h1 id="pageTitle">Laporan</h1>
+        <div class="topbar__right">
+          <span class="live" id="liveState" title="Status koneksi realtime"><i></i><span>Menyambung…</span></span>
+          <button type="button" class="icon-btn" id="soundBtn" title="Bunyi saat ada pesanan baru" aria-pressed="false">🔕</button>
+        </div>
+      </header>
+
+      <main class="main">
+        <!-- LAPORAN -->
+        <section class="panel" id="tab-dashboard">
+          <div class="stats" id="stats"></div>
+          <div class="grid2">
+            <div class="box">
+              <div class="box__head"><h2>Pendapatan 14 hari terakhir</h2></div>
+              <div id="chart" class="chart"></div>
+            </div>
+            <div class="box">
+              <div class="box__head"><h2>Menu terlaris bulan ini</h2></div>
+              <ol class="top" id="topItems"></ol>
+            </div>
+          </div>
+          <div class="box">
+            <div class="box__head"><h2>Pesanan terbaru <span class="live-dot"></span></h2>
+              <button type="button" class="link" data-goto="orders">Lihat semua →</button></div>
+            <div id="recent" class="recent"></div>
+          </div>
+          <p class="muted small note">Pendapatan = total semua pesanan yang tidak berstatus Dibatalkan dan pembayarannya tidak Ditolak. Data diperbarui otomatis.</p>
+        </section>
+
+        <!-- PESANAN -->
+        <section class="panel" id="tab-orders" hidden>
+          <div class="filters" id="orderFilters" role="tablist"></div>
+          <div class="orders" id="orders"></div>
+        </section>
+
+        <!-- MENU -->
+        <section class="panel" id="tab-menu" hidden>
+          <div class="toolbar">
+            <label class="search"><input type="search" id="menuSearch" placeholder="Cari menu…" autocomplete="off"></label>
+            <button type="button" class="btn btn--primary" id="addMenuBtn">+ Tambah Menu</button>
+          </div>
+          <div class="filters" id="menuFilters"></div>
+          <div id="menuList"></div>
+        </section>
+
+        <!-- JENIS MENU -->
+        <section class="panel" id="tab-categories" hidden>
+          <div class="toolbar">
+            <p class="muted">Jenis menu tampil sebagai tab kategori di web pelanggan.</p>
+            <button type="button" class="btn btn--primary" id="addCatBtn">+ Tambah Jenis</button>
+          </div>
+          <div id="catList"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ================= MODAL ================= -->
+  <div class="backdrop" id="backdrop" hidden></div>
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <form id="modalForm" novalidate>
+      <div class="modal__head"><h2 id="modalTitle"></h2><button type="button" class="icon-btn" data-close aria-label="Tutup">×</button></div>
+      <div class="modal__body" id="modalBody"></div>
+      <div class="modal__foot" id="modalFoot"></div>
+    </form>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <script src="/api/config"></script>   <!-- dari Environment Variables Vercel -->
+  <script src="js/app.js"></script>
+</body>
+</html>
