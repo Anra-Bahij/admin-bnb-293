@@ -165,4 +165,25 @@ details.adv{margin:4px 0 12px}details.adv summary{cursor:pointer;font-weight:600
   .toast{bottom:28px}
 }
 
-.item__name--thumb{display:flex;align-items:center;gap:8px}.thumb{width:36px;height:36px;border-radius:8px;object-fit:cover;flex:none;background:var(--line)}.thumb--lg{width:72px;height:72px}.img-now{display:flex;align-items:center;gap:12px;margin-bottom:10px}.field small{display:block;margin-top:3px;font-size:11.5px;color:var(--muted)}
+
+/* ===== Liquid glass & glassy dashboard ===== */
+body{background:radial-gradient(circle at 12% 8%,#e4edd2 0,transparent 42%),radial-gradient(circle at 88% 28%,#f5e2c6 0,transparent 36%),radial-gradient(circle at 50% 100%,#e9e4d6 0,transparent 45%),var(--cream);background-attachment:fixed}
+.topbar{background:rgba(248,245,240,.55);backdrop-filter:blur(18px) saturate(180%);-webkit-backdrop-filter:blur(18px) saturate(180%);border-bottom:1px solid rgba(255,255,255,.5)}
+.stat,.box,.item,.order,.empty{background:rgba(255,255,255,.6);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);box-shadow:0 8px 28px rgba(60,80,30,.10),inset 0 1px 0 rgba(255,255,255,.85)}
+.stat--hero{background:linear-gradient(135deg,rgba(85,107,47,.92),rgba(67,85,36,.92));color:#fff}
+.stat--hero .stat__label,.stat--hero .stat__sub{color:rgba(255,255,255,.85)}
+.chip{background:rgba(255,255,255,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.live{background:rgba(255,255,255,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+
+@media(max-width:899px){
+  /* tab bar mengambang, efek kaca */
+  .side{left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));padding:0 6px;border:1px solid rgba(255,255,255,.6);border-radius:28px;background:rgba(255,255,255,.35);backdrop-filter:blur(18px) saturate(180%);-webkit-backdrop-filter:blur(18px) saturate(180%);box-shadow:0 8px 32px rgba(60,80,30,.18),inset 0 1px 0 rgba(255,255,255,.8),inset 0 -1px 0 rgba(255,255,255,.2);overflow:hidden}
+  .nav button{border-radius:20px;transition:background .25s,color .25s,transform .15s}
+  .nav button:active{transform:scale(.94)}
+  .nav button.is-active{background:rgba(85,107,47,.18)}
+  .nav button.is-active::before{display:none}
+  .nav button.is-active i{transform:translateY(-1px);transition:transform .25s}
+  .content{padding-bottom:calc(var(--nav-h) + 56px + env(safe-area-inset-bottom))}
+  .toast{bottom:calc(var(--nav-h) + 52px + env(safe-area-inset-bottom))}
+  .pill{top:6px}
+}

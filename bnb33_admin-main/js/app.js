@@ -27,7 +27,6 @@
     }
   };
   const PAY_BUCKET = 'payment-proofs';
-  const IMG_BUCKET = 'product-images';      // foto menu (bucket publik, hanya admin yang boleh mengunggah)
   const awaitingProof = (o) => o.payment_status === 'Menunggu Verifikasi' && o.status !== 'Dibatalkan';
 
   const dayKey = (d) => new Date(d).toLocaleDateString('en-CA', { timeZone: TZ });          // YYYY-MM-DD di zona waktu toko
@@ -102,7 +101,7 @@
 
   async function checkAdmin() {
     const { data, error } = await sb.rpc('is_admin');
-    if (error) throw new Error('Gagal memeriksa hak admin. Pastikan 002_admin_auth.sql sudah dijalankan. (' + errMsg(error) + ')');
+    if (error) throw new Error('Gagal memeriksa hak admin. Pastikan ADMIN_SETUP.sql sudah dijalankan. (' + errMsg(error) + ')');
     return data === true;
   }
 
@@ -123,7 +122,7 @@
     if (!data.session) return showLogin();
     if (!(await checkAdmin())) {
       await sb.auth.signOut();
-      return showLogin('Akun ini belum terdaftar sebagai admin. Tambahkan emailnya ke tabel admin_users (lihat supabase/add_admin.sql).');
+      return showLogin('Akun ini belum terdaftar sebagai admin. Tambahkan emailnya ke tabel admin_users (lihat ADMIN_SETUP.sql).');
     }
     state.user = data.session.user;
     $('#whoami').textContent = state.user.email || '';
@@ -238,6 +237,22 @@
   }
   $('#nav').addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (b) switchTab(b.dataset.tab); });
   document.addEventListener('click', (e) => { const g = e.target.closest('[data-goto]'); if (g) switchTab(g.dataset.goto); });
+
+  // Geser kiri/kanan untuk pindah tab (mobile). Dilewati saat menyentuh elemen ber-data-no-swipe, input, chip, atau modal.
+  const TAB_ORDER = ['dashboard', 'orders', 'menu', 'categories'];
+  let swX = 0, swY = 0, swOn = false;
+  document.addEventListener('touchstart', (e) => {
+    swOn = !e.target.closest('[data-no-swipe], .filters, .modal, .backdrop, input, textarea, select');
+    swX = e.touches[0].clientX; swY = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    if (!swOn || window.innerWidth >= 900 || $('#shell').hidden || !$('#modal').hidden) return;
+    const dx = e.changedTouches[0].clientX - swX, dy = e.changedTouches[0].clientY - swY;
+    if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    const i = TAB_ORDER.indexOf(state.tab);
+    const next = TAB_ORDER[dx < 0 ? i + 1 : i - 1];
+    if (next) switchTab(next);
+  }, { passive: true });
 
   function renderAll() { renderDashboard(); renderOrders(); renderMenu(); renderCategories(); paintSound(); }
   function renderOrdersViews() { renderDashboard(); renderOrders(); }
@@ -416,7 +431,7 @@
     // URL bertanda tangan berumur pendek, dibuat saat dibutuhkan; bucket tetap private.
     const { data, error } = await sb.storage.from(PAY_BUCKET).createSignedUrl(o.payment_proof, 300);
     btn.disabled = false;
-    if (error || !data || !data.signedUrl) return toast('Bukti tidak bisa dibuka: ' + (error ? errMsg(error) : 'file tidak ditemukan') + '. Pastikan 004_setup_storage.sql sudah dijalankan.', true);
+    if (error || !data || !data.signedUrl) return toast('Bukti tidak bisa dibuka: ' + (error ? errMsg(error) : 'file tidak ditemukan') + '. Pastikan 01_PAYMENT_MIGRATION.sql sudah dijalankan.', true);
     const acts = (PAY_ACTS.QRIS[o.payment_status] || []).map(([to, label, cls]) => `<button type="button" class="btn btn--sm ${cls}" data-pay-act="${esc(to)}">${esc(label)}</button>`).join('');
     openModal({
       title: 'Bukti pembayaran QRIS',
@@ -460,13 +475,12 @@
     return `
       <div class="item${p.is_active === false ? ' is-off' : ''}" data-pid="${esc(p.id)}">
         <div class="item__main" style="grid-column:1/-1">
-          <div style="display:flex;justify-content:space-between;gap:10px"><span class="item__name item__name--thumb">${p.image_url ? `<img class="thumb" src="${esc(p.image_url)}" alt="" loading="lazy">` : ''}${esc(p.name)}</span><span class="item__price">${rp(p.price)}</span></div>
+          <div style="display:flex;justify-content:space-between;gap:10px"><span class="item__name">${esc(p.name)}</span><span class="item__price">${rp(p.price)}</span></div>
           <div class="item__desc">${esc(p.description || '—')}</div>
           <div class="tags">
             ${p.is_sold ? '<span class="tag tag--sold">Belum tersedia</span>' : ''}
             ${p.is_active === false ? '<span class="tag tag--hide">Disembunyikan</span>' : ''}
             ${vg.length ? `<span class="tag">${vg.length} grup variasi</span>` : ''}
-            ${p.stock !== null && p.stock !== undefined ? `<span class="tag${Number(p.stock) <= 0 ? ' tag--sold' : ''}">Stok: ${esc(p.stock)}</span>` : ''}
           </div>
         </div>
         <div class="item__acts">
@@ -541,11 +555,6 @@
           <label class="field"><span>Jenis menu *</span><select id="pfCat">${catOptions}</select></label>
           <label class="field"><span>Harga (Rp) *</span><input id="pfPrice" type="number" inputmode="numeric" min="0" step="500" required value="${p ? esc(p.price) : ''}" placeholder="15000"></label>
         </div>
-        <div class="row2">
-          <label class="field"><span>Stok</span><input id="pfStock" type="number" inputmode="numeric" min="0" step="1" value="${p && p.stock !== null && p.stock !== undefined ? esc(p.stock) : ''}" placeholder="Kosong = tidak dibatasi"><small>Berkurang otomatis saat ada pesanan. Stok 0 = otomatis “Sold out”.</small></label>
-          <label class="field"><span>Foto menu</span><input id="pfImg" type="file" accept="image/jpeg,image/png,image/webp"><small>JPG/PNG/WebP, maksimal 2 MB.</small></label>
-        </div>
-        ${p && p.image_url ? `<div class="img-now"><img class="thumb thumb--lg" src="${esc(p.image_url)}" alt=""><label class="check"><input type="checkbox" id="pfImgDel"> Hapus foto saat ini</label></div>` : ''}
         <label class="field"><span>Deskripsi</span><textarea id="pfDesc" rows="2" maxlength="200" placeholder="Opsional">${esc(p ? p.description || '' : '')}</textarea></label>
         <label class="check"><input type="checkbox" id="pfAvail" ${p && p.is_sold ? '' : 'checked'}> Tersedia (hapus centang = “Belum tersedia” di web pelanggan)</label>
         <label class="check"><input type="checkbox" id="pfActive" ${p && p.is_active === false ? '' : 'checked'}> Tampilkan di web pelanggan</label>
@@ -616,17 +625,6 @@
     return out;
   }
 
-  async function uploadImage(file) {
-    const types = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' };
-    const ext = types[file.type];
-    if (!ext) throw new Error('Foto harus berformat JPG, PNG, atau WebP.');
-    if (file.size > 2 * 1024 * 1024) throw new Error('Ukuran foto maksimal 2 MB.');
-    const path = `menu/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    const { error } = await sb.storage.from(IMG_BUCKET).upload(path, file, { contentType: file.type, cacheControl: '31536000', upsert: false });
-    if (error) throw new Error('Foto gagal diunggah: ' + errMsg(error) + ' (pastikan 005_storage.sql sudah dijalankan).');
-    return sb.storage.from(IMG_BUCKET).getPublicUrl(path).data.publicUrl;
-  }
-
   async function saveProduct(p) {
     const name = $('#pfName').value.trim(), priceRaw = $('#pfPrice').value;
     if (!name) throw new Error('Nama menu wajib diisi.');
@@ -641,12 +639,6 @@
       is_sold: !$('#pfAvail').checked,
       is_active: $('#pfActive').checked
     };
-    const stockRaw = $('#pfStock').value.trim();
-    if (stockRaw !== '' && (!Number.isFinite(Number(stockRaw)) || Number(stockRaw) < 0)) throw new Error('Stok harus angka 0 atau lebih (kosongkan bila tidak dibatasi).');
-    row.stock = stockRaw === '' ? null : Math.round(Number(stockRaw));
-    const imgFile = $('#pfImg').files[0];
-    if (imgFile) row.image_url = await uploadImage(imgFile);
-    else if ($('#pfImgDel') && $('#pfImgDel').checked) row.image_url = null;
     if (p) {
       if (category !== p.category) row.sort_order = Math.max(0, ...state.products.filter((x) => x.category === category).map((x) => Number(x.sort_order) || 0)) + 1;
       const { data, error } = await sb.from('products').update(row).eq('id', p.id).select();
