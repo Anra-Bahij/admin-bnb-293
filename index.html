@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F8F5F0">
+  <title>BnB Cemilan — Jajanan Favorit</title>
+  <meta name="description" content="Pesan jajanan favoritmu di BnB Cemilan: serundeng, bumbu ketumbar, bakar-bakaran, dan lainnya.">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32-v2.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192-v2.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon-v2.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="application-name" content="BnB Cemilan">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="BnB Cemilan">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/payment.css">
+  <link rel="stylesheet" href="css/pwa.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/liquid.css">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1320x2868-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1206x2622-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1290x2796-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1179x2556-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1284x2778-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1170x2532-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1125x2436-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1242x2688-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/splash/splash-828x1792-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/splash/splash-1242x2208-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/splash/splash-750x1334-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/splash/splash-640x1136-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/splash/splash-2048x2732-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/splash/splash-1668x2388-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/splash/splash-1668x2224-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/splash/splash-1620x2160-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/splash/splash-1536x2048-v2.png">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/splash/splash-1488x2266-v2.png">
+  <script>
+    /* Animasi pembuka: tampil sekali per sesi, dilewati jika pengguna memilih "kurangi gerakan".
+       Saat dibuka sebagai aplikasi terpasang (standalone), animasi panjang diganti splash ringan agar cepat. */
+    (function () {
+      var root = document.documentElement;
+      try {
+        var standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+        if (standalone) {
+          root.classList.add('pwa-splash-on');
+          setTimeout(function () { root.classList.remove('pwa-splash-on'); }, 4500);   // pengaman bila js/pwa.js gagal dimuat
+          return;
+        }
+        var seen = sessionStorage.getItem('bnb_intro_seen') === '1';
+        var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!seen && !reduce) root.classList.add('has-intro');
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="view-home">
+
+  <!-- ================= SPLASH RINGAN (hanya aplikasi terpasang) ================= -->
+  <div class="pwa-splash" id="pwaSplash" aria-hidden="true">
+    <img class="pwa-splash__logo" src="icons/logo-512-v2.webp" alt="" width="190" height="198">
+    <div class="pwa-splash__dots"><i></i><i></i><i></i></div>
+  </div>
+
+  <!-- ================= ANIMASI PEMBUKA ================= -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <svg class="intro__svg" width="0" height="0" focusable="false">
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9"/>
+        </filter>
+      </defs>
+    </svg>
+    <div class="intro__goo" id="introGoo">
+      <span class="dot dot--orange"></span>
+      <span class="dot dot--green"></span>
+    </div>
+    <div class="intro__logo">
+      <img src="icons/logo-512-v2.webp" alt="" data-logo>
+      <span class="logo-fallback" hidden>BnB Cemilan</span>
+    </div>
+    <button type="button" class="intro__skip" id="introSkip">Lewati</button>
+  </div>
+
+  <div class="app" id="app">
+
+    <!-- ================= STICKY: HEADER + SEARCH + KATEGORI ================= -->
+    <div class="sticky-top" id="stickyTop">
+      <header class="header wrap">
+        <a class="brand" href="./" aria-label="BnB Cemilan — beranda">
+          <img src="icons/logo-512-v2.webp" alt="BnB Cemilan" class="brand__logo" data-logo>
+          <span class="logo-fallback" hidden>BnB Cemilan</span>
+        </a>
+        <div class="greet">
+          <p class="greet__hi" id="greetHi">Halo!</p>
+          <p class="greet__sub">Mau jajan apa hari ini?</p>
+        </div>
+        <button type="button" class="bell-btn" id="bellBtn" aria-label="Notifikasi">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          <span class="badge" id="bellBadge" hidden>0</span>
+        </button>
+      </header>
+
+      <div id="menuTools" hidden>
+      <div class="searchbar wrap">
+        <label class="search">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" id="searchInput" placeholder="Cari makanan favoritmu..." autocomplete="off" enterkeyhint="search" aria-label="Cari makanan">
+          <button type="button" class="search__clear" id="searchClear" aria-label="Hapus pencarian" hidden>×</button>
+        </label>
+      </div>
+
+      <nav class="cats wrap" id="cats" aria-label="Kategori menu"></nav>
+      </div>
+    </div>
+
+    <!-- ================= BERANDA ================= -->
+    <div id="homeView" class="home">
+
+      <!-- 1. HERO -->
+      <section class="hero wrap" aria-labelledby="heroTitle">
+        <div class="hero__card">
+          <img src="icons/logo-512-v2.webp" alt="BnB Cemilan" class="hero__logo" width="190" height="198" data-logo>
+          <h1 class="hero__title" id="heroTitle">Mau Jajan Apa Hari Ini?</h1>
+          <p class="hero__desc">Temukan berbagai pilihan makanan dan camilan favoritmu di BnB Cemilan.</p>
+          <button type="button" class="hero__cta" id="heroCta">
+            LIHAT DAFTAR MENU
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- 2. TIGA TOMBOL MENU -->
+      <nav class="hub wrap" id="hub" aria-label="Informasi BnB Cemilan">
+        <button type="button" class="hub__btn hub__btn--kontak" data-open="kontak">
+          <span class="hub__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8.5 8.5 0 0 1-12.2 7.6L3.5 21l1.5-4.9A8.5 8.5 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14.5h4.5"/></svg></span>
+          <span class="hub__text"><b>Kontak Admin</b><small>WhatsApp &amp; Email</small></span>
+          <span class="hub__chev" aria-hidden="true">›</span>
+        </button>
+        <button type="button" class="hub__btn hub__btn--cara" data-open="cara">
+          <span class="hub__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/><path d="m10 9 1.6 1.6L14.5 7.5"/></svg></span>
+          <span class="hub__text"><b>Cara Pesan</b><small>4 langkah mudah</small></span>
+          <span class="hub__chev" aria-hidden="true">›</span>
+        </button>
+        <button type="button" class="hub__btn hub__btn--sosial" data-open="sosial">
+          <span class="hub__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19"/><path d="M12 2.5c2.6 2.7 4 6 4 9.5s-1.4 6.8-4 9.5c-2.6-2.7-4-6-4-9.5s1.4-6.8 4-9.5z"/></svg></span>
+          <span class="hub__text"><b>Sosial Media</b><small>Instagram &amp; TikTok</small></span>
+          <span class="hub__chev" aria-hidden="true">›</span>
+        </button>
+      </nav>
+
+      <!-- Panel isi (hanya satu yang tampil) -->
+      <div class="panel" id="panelCara" data-panel="cara" hidden>
+        <div class="panel__bar wrap"><button type="button" class="panel__back" data-hub-back><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Kembali</button></div>
+      <section class="how wrap" id="caraPesan" aria-labelledby="howTitle">
+        <h2 class="sec-title" id="howTitle">Cara Pesan</h2>
+        <p class="sec-sub">Pesan lewat website dalam 4 langkah mudah.</p>
+        <div class="how__viewport">
+          <ol class="how__track" id="howTrack" tabindex="0" aria-label="Langkah-langkah pemesanan">
+            <li class="how__slide">
+              <figure class="shot"><div class="shot__frame"><img src="assets/cara-pesan/1-pilih-menu.webp" alt="Tampilan daftar menu BnB Cemilan" width="600" height="1299" loading="lazy" decoding="async"></div></figure>
+              <div class="how__cap"><span class="how__num">1</span><div><h3>Pilih Menu</h3><p>Telusuri menu per kategori atau cari makanan favoritmu.</p></div></div>
+            </li>
+            <li class="how__slide">
+              <figure class="shot"><div class="shot__frame"><img src="assets/cara-pesan/2-keranjang.webp" alt="Tampilan keranjang berisi pesanan" width="600" height="1299" loading="lazy" decoding="async"></div></figure>
+              <div class="how__cap"><span class="how__num">2</span><div><h3>Masukkan ke Keranjang</h3><p>Tekan tombol + pada menu, pilih variasi bila ada, lalu buka keranjang.</p></div></div>
+            </li>
+            <li class="how__slide">
+              <figure class="shot"><div class="shot__frame"><img src="assets/cara-pesan/3-data-pesanan.webp" alt="Tampilan formulir data pesanan" width="600" height="1299" loading="lazy" decoding="async"></div></figure>
+              <div class="how__cap"><span class="how__num">3</span><div><h3>Isi Data Pesanan</h3><p>Isi nama, kelas, dan pilih diambil sendiri atau diantar.</p></div></div>
+            </li>
+            <li class="how__slide">
+              <figure class="shot"><div class="shot__frame"><img src="assets/cara-pesan/4-pembayaran.webp" alt="Tampilan pilihan pembayaran QRIS atau Cash" width="600" height="1299" loading="lazy" decoding="async"></div></figure>
+              <div class="how__cap"><span class="how__num">4</span><div><h3>Bayar</h3><p>Pilih QRIS (unggah bukti bayar) atau Cash, lalu kirim pesanan.</p></div></div>
+            </li>
+          </ol>
+        </div>
+        <div class="how__nav" id="howNav" hidden>
+          <button type="button" class="how__arrow" id="howPrev" aria-label="Langkah sebelumnya">‹</button>
+          <div class="how__dots" id="howDots" role="tablist" aria-label="Pilih langkah"></div>
+          <button type="button" class="how__arrow" id="howNext" aria-label="Langkah berikutnya">›</button>
+        </div>
+      </section>
+
+      </div>
+
+      <div class="panel" id="panelKontak" data-panel="kontak" hidden>
+        <div class="panel__bar wrap"><button type="button" class="panel__back" data-hub-back><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Kembali</button></div>
+        <section class="contact wrap" id="kontak" aria-labelledby="contactTitle">
+          <h2 class="sec-title" id="contactTitle">Kontak Admin</h2>
+          <div class="contact__grid contact__grid--one">
+          <div class="c-card">
+            <a class="c-link c-link--wa" id="waLink" href="#" target="_blank" rel="noopener noreferrer">
+              <span class="c-link__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.23 1.36.2 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.05 21.8h-.01a9.9 9.9 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88zM20.52 3.45A11.8 11.8 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.16-3.48-8.4z"/></svg></span>
+              <span class="c-link__text"><b>WhatsApp Admin</b><small>Chat langsung untuk bertanya atau memesan</small></span>
+            </a>
+            <div class="c-mail">
+              <p class="c-mail__name">Anra Syauqiy Bahij</p>
+              <a class="c-link c-link--mail" href="mailto:anrasyauqiybahij@gmail.com?subject=Pertanyaan%20BnB%20Cemilan">
+                <span class="c-link__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg></span>
+                <span class="c-link__text"><b>Kirim Email</b><small>anrasyauqiybahij@gmail.com</small></span>
+              </a>
+            </div>
+          </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="panel" id="panelSosial" data-panel="sosial" hidden>
+        <div class="panel__bar wrap"><button type="button" class="panel__back" data-hub-back><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Kembali</button></div>
+        <section class="contact wrap" id="sosial" aria-labelledby="socialTitle">
+          <h2 class="sec-title" id="socialTitle">Sosial Media</h2>
+          <div class="contact__grid contact__grid--one">
+          <div class="c-card">
+            <a class="c-link c-link--ig" href="https://www.instagram.com/anra_bahij?jplx=aXIzdW13NW14dnli" target="_blank" rel="noopener noreferrer">
+              <span class="c-link__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.1"><rect x="3" y="3" width="18" height="18" rx="5.2"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></span>
+              <span class="c-link__text"><b>Instagram</b><small>@anra_bahij</small></span>
+            </a>
+            <a class="c-link c-link--tt" href="https://www.tiktok.com/@anrabahij" target="_blank" rel="noopener noreferrer">
+              <span class="c-link__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></span>
+              <span class="c-link__text"><b>TikTok</b><small>@anrabahij</small></span>
+            </a>
+          </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 4. FOOTER BERANDA -->
+      <footer class="home-footer">
+        <div class="wrap home-footer__in">
+          <img src="icons/logo-512-v2.webp" alt="BnB Cemilan" class="home-footer__logo" width="190" height="198" data-logo loading="lazy">
+          <p class="home-footer__tag">Pesan Praktis, Pilihan Lebih Banyak!</p>
+          <p class="home-footer__copy">© <span id="homeYear"></span> BnB Cemilan. Hak cipta dilindungi.</p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- ================= KATALOG (tampil setelah menekan LIHAT DAFTAR MENU) ================= -->
+    <div id="menuView" hidden>
+    <main class="wrap main">
+      <!-- ================= BANNER ================= -->
+      <section class="banner" aria-label="Promosi">
+        <div class="banner__text">
+          <p class="banner__eyebrow">BnB Cemilan</p>
+          <h1 class="banner__title">JAJANAN FAVORIT</h1>
+          <p class="banner__sub">Temukan rasa favoritmu hari ini!</p>
+          <button type="button" class="btn btn--orange banner__cta" id="bannerCta">Lihat Menu</button>
+        </div>
+        <div class="banner__art" aria-hidden="true"><span>🍗</span><span>🍚</span><span>🔥</span></div>
+      </section>
+
+      <!-- ================= DAFTAR PRODUK ================= -->
+      <div id="menu" class="menu" aria-live="polite"></div>
+    </main>
+
+    <footer class="footer wrap">
+      <p>© <span id="year"></span> BnB Cemilan · Jajanan Favorit</p>
+    </footer>
+    </div><!-- /menuView -->
+
+    <!-- ================= PESANAN (status & riwayat pesanan di perangkat ini) ================= -->
+    <div id="ordersView" hidden>
+      <main class="wrap orders">
+        <h2 class="sec-title">Pesanan Saya</h2>
+        <p class="sec-sub">Status diperbarui otomatis. Riwayat tersimpan di perangkat ini.</p>
+        <div id="ordersList"></div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ================= LIQUID GLASS BOTTOM TAB BAR ================= -->
+  <nav class="tabbar" id="tabbar" aria-label="Navigasi utama">
+    <span class="tabbar__blob" id="tabBlob" aria-hidden="true"></span>
+    <i class="tabbar__drop tabbar__drop--1" aria-hidden="true"></i>
+    <i class="tabbar__drop tabbar__drop--2" aria-hidden="true"></i>
+    <i class="tabbar__drop tabbar__drop--3" aria-hidden="true"></i>
+    <button type="button" class="tab" data-tab="home" aria-current="page">
+      <span class="tab__ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></span>
+      <span>BERANDA</span>
+    </button>
+    <button type="button" class="tab" data-tab="menu">
+      <span class="tab__ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg></span>
+      <span>MENU</span>
+    </button>
+    <button type="button" class="tab" data-tab="cart" id="cartBtn" aria-label="Keranjang">
+      <span class="tab__ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1.2"/><circle cx="19" cy="21" r="1.2"/><path d="M2 3h3l2.6 12.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.5L22 7H6"/></svg><span class="badge" id="cartBadge" hidden>0</span></span>
+      <span>KERANJANG</span>
+    </button>
+    <button type="button" class="tab" data-tab="orders">
+      <span class="tab__ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4M12 16h4M8 11h.01M8 16h.01"/></svg></span>
+      <span>PESANAN</span>
+    </button>
+  </nav>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+
+  <!-- ================= MODAL VARIASI ================= -->
+  <div class="sheet sheet--modal" id="variantSheet" role="dialog" aria-modal="true" aria-labelledby="variantTitle" hidden>
+    <div class="sheet__handle" aria-hidden="true"></div>
+    <div class="sheet__head">
+      <div>
+        <h2 id="variantTitle" class="sheet__title">Pilih</h2>
+        <p class="sheet__sub" id="variantProduct"></p>
+      </div>
+      <button type="button" class="icon-btn" data-close aria-label="Tutup">×</button>
+    </div>
+    <div class="sheet__body">
+      <p class="hint" id="variantHint"></p>
+      <div class="options" id="variantOptions" role="radiogroup" aria-labelledby="variantTitle"></div>
+    </div>
+    <div class="sheet__foot">
+      <button type="button" class="btn btn--orange btn--block" id="variantAdd" disabled>Pilih salah satu dulu</button>
+    </div>
+  </div>
+
+  <!-- ================= KERANJANG / CHECKOUT ================= -->
+  <aside class="sheet sheet--drawer" id="cartSheet" role="dialog" aria-modal="true" aria-labelledby="cartTitle" hidden>
+    <div class="sheet__handle" aria-hidden="true"></div>
+    <div class="sheet__head">
+      <div>
+        <button type="button" class="back-btn" id="cartBack" hidden>← Kembali</button>
+        <h2 id="cartTitle" class="sheet__title">Keranjang</h2>
+      </div>
+      <button type="button" class="icon-btn" data-close aria-label="Tutup">×</button>
+    </div>
+    <div class="sheet__body" id="cartBody"></div>
+    <div class="sheet__foot" id="cartFoot"></div>
+  </aside>
+
+  <!-- ================= NOTIFIKASI ================= -->
+  <aside class="sheet sheet--drawer" id="notifSheet" role="dialog" aria-modal="true" aria-labelledby="notifTitle" hidden>
+    <div class="sheet__handle" aria-hidden="true"></div>
+    <div class="sheet__head">
+      <div>
+        <h2 id="notifTitle" class="sheet__title">Notifikasi</h2>
+        <p class="sheet__sub" id="notifSub"></p>
+      </div>
+      <button type="button" class="icon-btn" data-close aria-label="Tutup">×</button>
+    </div>
+    <div class="sheet__body" id="notifBody"></div>
+    <div class="sheet__foot"><button type="button" class="btn btn--ghost btn--block" id="notifReadAll">Tandai semua sudah dibaca</button></div>
+  </aside>
+
+  <!-- ================= DETAIL PRODUK + ULASAN ================= -->
+  <aside class="sheet sheet--drawer" id="productSheet" role="dialog" aria-modal="true" aria-labelledby="productTitle" hidden>
+    <div class="sheet__handle" aria-hidden="true"></div>
+    <div class="sheet__head">
+      <div>
+        <h2 id="productTitle" class="sheet__title"></h2>
+        <p class="sheet__sub" id="productSub"></p>
+      </div>
+      <button type="button" class="icon-btn" data-close aria-label="Tutup">×</button>
+    </div>
+    <div class="sheet__body" id="productBody"></div>
+    <div class="sheet__foot" id="productFoot"><button type="button" class="btn btn--orange btn--block" id="productAdd">+ Tambah ke Keranjang</button></div>
+  </aside>
+
+  <!-- ================= BERI PENILAIAN ================= -->
+  <div class="sheet sheet--modal" id="reviewSheet" role="dialog" aria-modal="true" aria-labelledby="reviewTitle" hidden>
+    <div class="sheet__handle" aria-hidden="true"></div>
+    <div class="sheet__head">
+      <div>
+        <h2 id="reviewTitle" class="sheet__title">Beri Penilaian</h2>
+        <p class="sheet__sub" id="reviewProduct"></p>
+      </div>
+      <button type="button" class="icon-btn" data-close aria-label="Tutup">×</button>
+    </div>
+    <div class="sheet__body">
+      <div class="stars-input" id="starsInput" role="radiogroup" aria-label="Rating 1 sampai 5 bintang">
+        <button type="button" role="radio" aria-checked="false" data-v="1" aria-label="1 bintang">★</button><button type="button" role="radio" aria-checked="false" data-v="2" aria-label="2 bintang">★</button><button type="button" role="radio" aria-checked="false" data-v="3" aria-label="3 bintang">★</button><button type="button" role="radio" aria-checked="false" data-v="4" aria-label="4 bintang">★</button><button type="button" role="radio" aria-checked="false" data-v="5" aria-label="5 bintang">★</button>
+      </div>
+      <div class="field">
+        <label for="reviewComment">Komentar <span class="opt-note">(opsional)</span></label>
+        <textarea id="reviewComment" rows="3" maxlength="500" placeholder="Ceritakan pengalamanmu"></textarea>
+      </div>
+    </div>
+    <div class="sheet__foot"><button type="button" class="btn btn--orange btn--block" id="reviewSubmit" disabled>Pilih bintang dulu</button></div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/payment.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/live.js"></script>
+  <script src="js/pwa.js" defer></script>
+</body>
+</html>

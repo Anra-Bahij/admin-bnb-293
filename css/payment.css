@@ -1,0 +1,59 @@
+/* ==========================================================================
+   BnB Cemilan — gaya tambahan PEMBAYARAN (QRIS + Cash)
+   Memakai variabel warna dari style.css. Dimuat setelah style.css.
+   ========================================================================== */
+.pay-panel { margin-bottom: 14px; }
+.pay-panel:empty { display: none; }
+
+.pay-box {
+  background: var(--white); border: 1.5px solid var(--line); border-radius: 16px; padding: 14px;
+}
+.pay-box + .pay-box { margin-top: 10px; }
+.pay-box__title { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.pay-note { font-size: 12.5px; color: var(--muted); margin-top: 8px; line-height: 1.45; }
+.pay-note--ok { color: var(--olive-deep); font-weight: 600; }
+
+/* ---- QRIS ---- */
+.qris { text-align: center; }
+.qris__amount { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-bottom: 10px; }
+.qris__amount span { font-size: 12.5px; color: var(--muted); }
+.qris__amount strong { font-size: 26px; line-height: 1.2; color: var(--orange-deep); letter-spacing: .2px; }
+.qris__frame {
+  display: grid; place-items: center; width: min(100%, 280px); aspect-ratio: 1 / 1.25; margin: 0 auto;
+  background: #fff; border: 1.5px solid var(--line); border-radius: 14px; padding: 8px; overflow: hidden;
+}
+.qris__img { width: 100%; height: 100%; object-fit: contain; }
+.qris__missing { font-size: 13px; color: #B3261E; padding: 10px; }
+.qris__save { display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 600; color: var(--brown); text-decoration: underline; padding: 6px 4px; }
+
+/* ---- Unggah bukti ---- */
+.upload__input { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; clip: rect(0 0 0 0); }
+.upload__btn { cursor: pointer; }
+.upload__btn:has(.upload__input:focus-visible), .upload:has(.upload__input:focus-visible) .upload__btn { outline: 2px solid var(--orange); outline-offset: 2px; }
+.upload__preview { display: flex; align-items: center; gap: 12px; margin-top: 10px; padding: 10px; border-radius: 12px; background: #F3F7EA; border: 1px solid #D6E2BC; }
+.upload__thumb { flex: none; width: 64px; height: 64px; border-radius: 10px; object-fit: cover; background: #fff; border: 1px solid var(--line); }
+.upload__meta { min-width: 0; font-size: 13px; }
+.upload__meta strong { display: block; color: var(--olive-deep); }
+.upload__meta span { color: var(--muted); font-size: 12px; }
+.upload__busy { margin-top: 10px; font-size: 13px; color: var(--muted); }
+
+/* ---- Cash ---- */
+.pay-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 4px; }
+.pay-chip {
+  padding: 10px 14px; min-height: 44px; border-radius: 12px; background: var(--white); border: 2px solid var(--line);
+  font-weight: 600; font-size: 14px; transition: border-color .15s, background .15s;
+}
+.pay-chip.is-selected { border-color: var(--orange); background: #FFF8EC; box-shadow: 0 0 0 3px rgba(217, 119, 6, .14); }
+.pay-custom { margin-top: 10px; }
+.pay-custom input[type="text"] { width: 100%; padding: 12px 14px; font-size: 16px; background: var(--white); border: 1.5px solid var(--line); border-radius: 12px; outline: 0; }
+.pay-custom input[type="text"]:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(217, 119, 6, .15); }
+
+.pay-calc { margin-top: 10px; padding: 10px 12px; border-radius: 12px; background: #F3F7EA; border: 1px solid #D6E2BC; font-size: 13.5px; }
+.pay-calc__row { display: flex; justify-content: space-between; gap: 12px; padding: 2px 0; }
+.pay-calc__row--big { font-weight: 700; color: var(--olive-deep); font-size: 15px; }
+.pay-calc.is-bad { background: #FDECEA; border-color: #F3C2BD; color: #B3261E; }
+
+/* ---- Ringkasan di layar sukses ---- */
+.success__pay { margin: 0 0 16px; padding: 10px 12px; border-radius: 12px; background: var(--white); border: 1px solid var(--line); font-size: 13.5px; text-align: left; }
+.success__pay div { display: flex; justify-content: space-between; gap: 12px; padding: 2px 0; }
+.success__pay strong { color: var(--dark); }

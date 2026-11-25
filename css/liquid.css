@@ -1,0 +1,181 @@
+/* ==========================================================================
+   BnB Cemilan — LIQUID GLASS (navigasi bawah 4 tab, lonceng, notifikasi, halaman Pesanan, rating & ulasan)
+   Liquid Glass hanya dipakai untuk navigasi & komponen interaktif; identitas visual lain tidak diubah.
+   Memakai variabel warna dari style.css. Animasi ringan: hanya transform/opacity.
+   ========================================================================== */
+:root {
+  --dock-x: max(12px, calc((100vw - 480px) / 2));        /* tab bar memakai kolom maks. 480px di tengah */
+  --dock-b: calc(12px + env(safe-area-inset-bottom));
+  --dock-h: 64px;
+  --dock-space: calc(var(--dock-h) + 24px + env(safe-area-inset-bottom));   /* ruang agar konten tidak tertutup */
+}
+.footer { padding-bottom: calc(24px + var(--dock-space)); }
+.orders { padding-block: 16px calc(24px + var(--dock-space)); }
+.has-intro .tabbar { display: none; }
+
+/* ---------------------------------------------------------------- Bottom Tab Bar */
+.tabbar {
+  position: fixed; z-index: 50; left: var(--dock-x); right: var(--dock-x); bottom: var(--dock-b);
+  height: var(--dock-h); padding: 6px; display: grid; grid-template-columns: repeat(4, 1fr); touch-action: none;   /* geser pada bar ditangani JS */
+  border-radius: 999px; isolation: isolate;
+  background: linear-gradient(180deg, rgba(255, 253, 248, .78), rgba(248, 245, 240, .56));
+  -webkit-backdrop-filter: blur(20px) saturate(170%); backdrop-filter: blur(20px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, .7);
+  box-shadow: 0 10px 28px rgba(45, 45, 45, .16), 0 2px 6px rgba(45, 45, 45, .08),
+    inset 0 1.5px 0 rgba(255, 255, 255, .95), inset 0 -1px 0 rgba(139, 94, 60, .12), inset 0 0 14px rgba(255, 255, 255, .35);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .tabbar { background: rgba(248, 245, 240, .96); } }
+.tabbar::before {                                         /* pantulan cahaya lembut */
+  content: ''; position: absolute; inset: 0; z-index: 1; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(118deg, rgba(255, 255, 255, .6) 0%, rgba(255, 255, 255, 0) 36%),
+    radial-gradient(120% 80% at 12% -30%, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0) 60%);
+}
+
+/* indikator aktif: bergerak seperti cairan */
+.tabbar__blob {
+  position: absolute; z-index: 0; top: 6px; bottom: 6px; width: calc((100% - 12px) / 4); border-radius: 999px;
+  left: calc(6px + var(--i, 0) * (100% - 12px) / 4);      /* posisi dasar; geseran jari lewat transform */
+  background: linear-gradient(180deg, rgba(85, 107, 47, .24), rgba(85, 107, 47, .12));
+  border: 1px solid rgba(85, 107, 47, .3);
+  box-shadow: 0 0 20px rgba(85, 107, 47, .38), inset 0 1px 0 rgba(255, 255, 255, .75);   /* cahaya aktif */
+  transition: left .55s cubic-bezier(.34, 1.45, .5, 1);
+  will-change: transform;
+}
+.tabbar__blob.is-flow { animation: liquid .55s ease; }
+@keyframes liquid { 0% { scale: 1 1; } 35% { scale: 1.3 .86; } 70% { scale: .95 1.06; } 100% { scale: 1 1; } }
+
+.tab {
+  position: relative; z-index: 2; min-height: 44px; border-radius: 999px; color: var(--brown);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  font: 700 10.5px/1 var(--font); letter-spacing: .05em; transition: color .25s;
+  -webkit-tap-highlight-color: transparent;
+}
+.tab svg { transition: transform .4s cubic-bezier(.34, 1.56, .64, 1); }
+.tab[aria-current="page"] { color: var(--olive); }
+.tab[aria-current="page"] svg { transform: scale(1.18) translateY(-1px); }
+.tab:active svg { transform: scale(.92); }
+/* ikon di bawah jari naik keluar dari kapsul, dengan lingkaran kaca kecil di belakangnya */
+.tab__ico { transition: transform .3s cubic-bezier(.34, 1.56, .64, 1); }
+.tab__ico::before {
+  content: ''; position: absolute; left: 50%; top: 50%; width: 50px; height: 50px; margin: -25px 0 0 -25px; z-index: -1;
+  border-radius: 50%; opacity: 0; transform: scale(.6); pointer-events: none;
+  transition: opacity .25s ease, transform .3s cubic-bezier(.34, 1.56, .64, 1);
+  background: radial-gradient(circle at 32% 26%, #fff 0 14%, rgba(255, 255, 255, .45) 42%, rgba(255, 255, 255, .12) 74%);
+  border: 1px solid rgba(255, 255, 255, .85); box-shadow: 0 10px 22px rgba(85, 107, 47, .28), inset 0 -2px 6px rgba(139, 94, 60, .18);
+}
+.tab.is-lift .tab__ico { transform: translateY(-26px) scale(1.12); }
+.tab.is-lift .tab__ico::before { opacity: 1; transform: scale(1); }
+.tab:focus-visible, .bell-btn:focus-visible { outline: 2.5px solid var(--orange); outline-offset: 2px; }
+
+/* tetesan air kecil (dekorasi minimalis) */
+.tabbar__drop {
+  position: absolute; z-index: 1; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle at 32% 28%, #fff 0 16%, rgba(255, 255, 255, .4) 40%, rgba(255, 255, 255, .06) 72%);
+  border: 1px solid rgba(255, 255, 255, .75);
+  box-shadow: 0 1px 2px rgba(139, 94, 60, .2), inset 0 -1px 2px rgba(139, 94, 60, .16);
+}
+.tabbar__drop--1 { width: 7px; height: 7px; top: 7px; left: 25%; }
+.tabbar__drop--2 { width: 5px; height: 5px; bottom: 8px; left: 75%; }
+.tabbar__drop--3 { width: 6px; height: 6px; top: 11px; right: 9px; background-color: rgba(217, 119, 6, .2); }
+
+/* ---------------------------------------------------------------- Lonceng notifikasi (kanan atas) */
+.bell-btn {
+  position: relative; flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
+  color: var(--brown); background: rgba(255, 255, 255, .8); border: 1px solid var(--line); box-shadow: var(--shadow-sm);
+  transition: transform .15s; -webkit-tap-highlight-color: transparent;
+}
+.bell-btn:active { transform: scale(.93); }
+.bell-btn.is-ring svg { animation: bellRing .9s ease; transform-origin: 50% 10%; }
+.bell-btn .badge.is-ring { animation: bump .5s ease; }
+@keyframes bellRing { 0%, 100% { rotate: 0deg; } 15% { rotate: 16deg; } 30% { rotate: -13deg; } 45% { rotate: 9deg; } 60% { rotate: -6deg; } 75% { rotate: 3deg; } }
+
+/* ---------------------------------------------------------------- Panel notifikasi */
+.notif-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.notif { display: flex; gap: 12px; padding: 12px 14px; border-radius: 16px; background: var(--white); border: 1.5px solid var(--line); }
+.notif.is-unread { border-color: rgba(85, 107, 47, .45); background: #FBFCF7; box-shadow: 0 2px 10px rgba(85, 107, 47, .1); }
+.notif__icon { flex: none; width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; font-size: 19px; background: var(--cream); }
+.notif__main { min-width: 0; flex: 1; }
+.notif__title { font-weight: 700; font-size: 14.5px; color: var(--dark); display: flex; align-items: center; gap: 8px; }
+.notif__dot { flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 3px rgba(217, 119, 6, .18); }
+.notif__body { margin-top: 3px; font-size: 13.5px; line-height: 1.45; color: var(--dark); white-space: pre-line; }
+.notif__meta { margin-top: 6px; font-size: 11.5px; color: var(--muted); }
+.notif__read { margin-top: 8px; min-height: 36px; padding: 0 12px; border-radius: 999px; background: rgba(85, 107, 47, .12); color: var(--olive-deep); font-weight: 600; font-size: 12.5px; }
+.notif__read:active { transform: scale(.96); }
+#notifSheet .btn:disabled { opacity: .5; }
+
+/* ---------------------------------------------------------------- Halaman Pesanan */
+.ord { margin-top: 14px; padding: 14px 16px; border-radius: var(--radius); background: var(--white); border: 1.5px solid var(--line); box-shadow: var(--shadow-sm); }
+.ord__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.ord__head strong { display: block; font-size: 15px; }
+.ord__head small { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
+.ord__status { flex: none; padding: 5px 11px; border-radius: 999px; font-size: 12px; font-weight: 700; background: rgba(139, 94, 60, .12); color: var(--brown); }
+.ord--processing .ord__status { background: rgba(217, 119, 6, .14); color: var(--orange-deep); }
+.ord--ready .ord__status, .ord--completed .ord__status { background: rgba(85, 107, 47, .15); color: var(--olive-deep); }
+.ord__steps { list-style: none; margin: 14px 0 4px; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); }
+.ord__steps li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 10.5px; color: var(--muted); text-align: center; }
+.ord__steps li::before { content: ''; position: absolute; top: 6px; right: 50%; width: 100%; height: 2px; background: var(--line); }
+.ord__steps li:first-child::before { display: none; }
+.ord__steps i { position: relative; z-index: 1; width: 14px; height: 14px; border-radius: 50%; background: var(--white); border: 2px solid var(--line); }
+.ord__steps .is-done, .ord__steps .is-now { color: var(--olive-deep); font-weight: 600; }
+.ord__steps .is-done::before, .ord__steps .is-now::before { background: var(--olive); }
+.ord__steps .is-done i { background: var(--olive); border-color: var(--olive); }
+.ord__steps .is-now i { border-color: var(--olive); background: var(--white); box-shadow: 0 0 0 4px rgba(85, 107, 47, .2); }
+.ord__items { list-style: none; margin: 12px 0 0; padding: 10px 0 0; border-top: 1px dashed var(--line); display: grid; gap: 3px; font-size: 13px; }
+.ord__items small { color: var(--muted); }
+.ord__foot { margin-top: 10px; display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; color: var(--muted); }
+.ord__foot strong { font-size: 15px; color: var(--dark); }
+
+/* ---------------------------------------------------------------- Perpindahan halaman */
+.view-in { animation: viewIn .32s cubic-bezier(.2, .8, .2, 1) backwards; }
+@keyframes viewIn { from { opacity: 0; transform: translateY(10px); } }
+
+@media (max-width: 359px) { .tab { font-size: 8.5px; letter-spacing: 0; } .tab svg { width: 20px; height: 20px; } }
+@media (prefers-reduced-motion: reduce) {
+  .tabbar__blob, .tab svg, .tab__ico, .tab__ico::before { transition: none; }
+  .tabbar__blob.is-flow, .view-in, .tab__ico.bump, .bell-btn.is-ring svg, .bell-btn .badge.is-ring { animation: none; }
+}
+
+/* ---------------------------------------------------------------- Badge keranjang pada tab */
+.tab__ico { position: relative; display: grid; place-items: center; }
+.tab__ico .badge { top: -7px; right: -11px; min-width: 18px; height: 18px; font-size: 10px; border-width: 1.5px; box-shadow: 0 2px 6px rgba(217, 119, 6, .45); }
+.tab__ico.bump { animation: fabPop .4s cubic-bezier(.34, 1.56, .64, 1); }
+@keyframes fabPop { 40% { transform: scale(1.18); } }
+
+/* Keranjang terbuka: tab bar tetap terlihat di atas layar redup (agar bisa pindah tab / geser), panel naik di atasnya */
+body.cart-open .tabbar { z-index: 80; }
+body.cart-open #cartSheet { bottom: calc(var(--dock-h) + 20px + env(safe-area-inset-bottom)); padding-bottom: 0; border-radius: 26px; max-height: calc(100dvh - var(--dock-h) - 40px - env(safe-area-inset-bottom)); }
+body.cart-open #cartSheet .sheet__foot, body.cart-open #cartSheet .kbd { border-radius: 0 0 26px 26px; }
+
+/* ---------------------------------------------------------------- Rating & ulasan */
+.stars { color: var(--orange); letter-spacing: 1px; }
+.card { cursor: pointer; }
+.card__rate { margin-top: 4px; padding: 2px 0; min-height: 24px; text-align: left; font-size: 12px; color: var(--muted); line-height: 1.3; }
+.card__rate b { color: var(--dark); font-weight: 600; }
+.rev-sum { display: flex; align-items: center; gap: 14px; padding: 12px 14px; margin-bottom: 12px; border-radius: 16px; background: var(--white); border: 1.5px solid var(--line); }
+.rev-sum strong { font-size: 32px; line-height: 1; color: var(--olive-deep); }
+.rev-sum small { display: block; font-size: 12px; color: var(--muted); }
+.rev-list { display: grid; gap: 10px; }
+.rev { padding: 12px 14px; border-radius: 14px; background: var(--white); border: 1px solid var(--line); }
+.rev__top { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted); }
+.rev p { margin-top: 6px; font-size: 13.5px; line-height: 1.45; overflow-wrap: anywhere; }
+.stars-input { display: flex; justify-content: center; gap: 6px; margin: 4px 0 18px; }
+.stars-input button { width: 48px; height: 48px; font-size: 38px; line-height: 1; color: #D8D0C2; transition: color .15s, transform .15s; }
+.stars-input button.is-on { color: var(--orange); }
+.stars-input button:active { transform: scale(.88); }
+.opt-note { font-weight: 400; color: var(--muted); }
+.ord__rate { margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.ord__rate > p { font-size: 12px; font-weight: 600; color: var(--olive-deep); margin-bottom: 6px; }
+.ord__rate ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.ord__rate li { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.ord__rate li > span:first-child { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.ord__rbtn { flex: none; min-height: 40px; padding: 0 14px; border-radius: 999px; background: var(--orange); color: #fff; font-weight: 600; font-size: 12.5px; }
+.ord__rbtn--ghost { background: transparent; color: var(--olive-deep); border: 1.5px solid var(--line); }
+.ord__rbtn:active { transform: scale(.96); }
+
+/* View yang sedang digeser keluar layar tidak boleh memperlebar viewport.
+   clip (bukan hidden) agar tidak membuat scroll container dan sticky header tetap jalan. */
+.app { overflow-x: hidden; overflow-x: clip; }
+
+/* ikon yang dilempar dari tab asal ke tab tujuan (dibuat di js/app.js) */
+.ico-fly { position: fixed; z-index: 95; pointer-events: none; margin: 0; display: flex; align-items: center; justify-content: center; }
+.ico-fly .tab__ico::before { opacity: 1; transform: scale(1); }

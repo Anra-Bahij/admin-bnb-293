@@ -1,0 +1,189 @@
+/* ==========================================================================
+   BnB Cemilan — BERANDA (hero, cara pesan, kontak, footer)
+   Memakai variabel warna & font dari style.css. Tidak mengubah gaya katalog.
+   ========================================================================== */
+
+/* ---------- Pergantian tampilan ---------- */
+body.view-home .brand,
+body.view-home .greet__sub { display: none; }
+body.view-home .greet__hi { font-size: 14px; }
+
+body.view-menu .greet__hi, body.view-orders .greet__hi { font-size: 13px; }
+
+/* ---------- Hero ---------- */
+.home { padding-bottom: 8px; }
+.hero { padding-top: 4px; }
+.hero__card {
+  position: relative; overflow: hidden; text-align: center; border-radius: 28px;
+  padding: 26px 20px 30px; color: var(--white);
+  background:
+    radial-gradient(circle at 90% 8%, rgba(217, 119, 6, .55), transparent 46%),
+    linear-gradient(145deg, var(--olive) 0%, var(--olive-deep) 100%);
+  box-shadow: var(--shadow-md);
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.hero__card::before, .hero__card::after {
+  content: ''; position: absolute; border-radius: 50%; pointer-events: none; background: rgba(248, 245, 240, .09);
+}
+.hero__card::before { width: 220px; height: 220px; left: -80px; bottom: -90px; }
+.hero__card::after { width: 150px; height: 150px; right: -40px; top: 60%; }
+.hero__card > * { position: relative; z-index: 1; }
+.hero__logo {
+  width: auto; height: 104px; max-width: 70%; object-fit: contain;
+  background: var(--cream); padding: 8px 14px; border-radius: 22px; box-shadow: 0 8px 20px rgba(0, 0, 0, .18);
+}
+.hero__title { font-size: clamp(28px, 8.4vw, 44px); line-height: 1.12; font-weight: 800; letter-spacing: .2px; margin-top: 6px; }
+.hero__desc { font-size: 15px; line-height: 1.55; max-width: 34ch; opacity: .95; }
+.hero__cta {
+  margin-top: 8px; width: 100%; max-width: 380px; min-height: 64px; padding: 16px 24px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  border-radius: 18px; background: var(--orange); color: var(--white);
+  font-weight: 800; font-size: 18px; letter-spacing: .06em;
+  border: 3px solid rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 28px rgba(217, 119, 6, .55), 0 0 0 6px rgba(217, 119, 6, .22);
+  transition: transform .15s, background .2s, box-shadow .2s;
+  animation: ctaPulse 2.6s ease-in-out infinite;
+}
+.hero__cta:hover { background: var(--orange-deep); transform: translateY(-2px); }
+.hero__cta:active { transform: scale(.97); }
+.hero__cta svg { transition: transform .2s; }
+.hero__cta:hover svg { transform: translateX(4px); }
+@keyframes ctaPulse {
+  0%, 100% { box-shadow: 0 12px 28px rgba(217, 119, 6, .55), 0 0 0 6px rgba(217, 119, 6, .22); }
+  50% { box-shadow: 0 12px 28px rgba(217, 119, 6, .55), 0 0 0 12px rgba(217, 119, 6, .08); }
+}
+
+/* ---------- Judul bagian ---------- */
+.how, .contact { padding-top: 34px; }
+.sec-title { font-size: 22px; font-weight: 800; color: var(--olive-deep); text-align: center; }
+.sec-sub { text-align: center; color: var(--muted); font-size: 14px; margin-top: 2px; }
+
+/* ---------- Cara Pesan (carousel screenshot) ---------- */
+.how__viewport { margin-top: 18px; margin-inline: -16px; }
+.how__track {
+  list-style: none; margin: 0; padding: 4px 16px 10px; display: flex; gap: 16px;
+  overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 16px;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.how__track::-webkit-scrollbar { display: none; }
+.how__slide { flex: 0 0 min(72%, 270px); scroll-snap-align: center; display: flex; flex-direction: column; gap: 12px; }
+.shot { margin: 0; }
+.shot__frame {
+  border-radius: 26px; padding: 6px; background: var(--dark); box-shadow: var(--shadow-md);
+  aspect-ratio: 390 / 844; overflow: hidden; position: relative;
+}
+.shot__frame img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 21px; background: var(--white);
+}
+.how__cap { display: flex; gap: 10px; align-items: flex-start; }
+.how__num {
+  flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--orange); color: var(--white); font-weight: 800; font-size: 14px;
+}
+.how__cap h3 { font-size: 15px; font-weight: 700; line-height: 1.3; }
+.how__cap p { font-size: 13px; color: var(--muted); line-height: 1.45; margin-top: 2px; }
+.how__nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 6px; }
+.how__arrow {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--white); border: 1.5px solid var(--line);
+  font-size: 24px; line-height: 1; color: var(--olive-deep); display: grid; place-items: center; padding-bottom: 3px;
+}
+.how__arrow:disabled { opacity: .35; cursor: default; }
+.how__dots { display: flex; gap: 8px; }
+.how__dot { width: 9px; height: 9px; border-radius: 999px; background: #D9D3C8; transition: width .25s, background .25s; padding: 0; }
+.how__dot.is-active { width: 24px; background: var(--orange); }
+
+/* ---------- Kontak & sosial ---------- */
+.contact__grid { display: grid; gap: 14px; margin-top: 16px; }
+.c-card {
+  background: var(--white); border: 1.5px solid var(--line); border-radius: 22px; padding: 16px;
+  box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 10px;
+}
+.c-card__title { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--brown); }
+.c-mail { display: flex; flex-direction: column; gap: 6px; }
+.c-mail__name { font-size: 13px; font-weight: 600; color: var(--dark); padding-left: 4px; }
+.c-mail__name::before { content: 'Nama: '; }
+.c-link {
+  display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 10px 14px; border-radius: 16px;
+  text-decoration: none; color: var(--white); transition: transform .15s, filter .2s;
+}
+.c-link:hover { filter: brightness(1.06); }
+.c-link:active { transform: scale(.98); }
+.c-link__icon {
+  flex: none; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center;
+  background: rgba(255, 255, 255, .2);
+}
+.c-link__text { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.c-link__text b { font-size: 15px; font-weight: 700; }
+.c-link__text small { font-size: 12px; opacity: .92; overflow-wrap: anywhere; }
+.c-link--wa { background: #1FA855; }
+.c-link--mail { background: var(--brown); }
+.c-link--ig { background: linear-gradient(45deg, #F9A03F 0%, #E1306C 50%, #7B3FE4 100%); }
+.c-link--tt { background: #111; }
+
+/* ---------- Footer beranda ---------- */
+.home-footer { margin-top: 36px; background: var(--olive-deep); color: var(--white); padding: 28px 0 calc(28px + var(--dock-space)); }
+.home-footer__in { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.home-footer__logo { height: 64px; width: auto; max-width: 160px; object-fit: contain; background: var(--cream); padding: 6px 12px; border-radius: 16px; }
+.home-footer__tag { font-weight: 600; font-size: 15px; margin-top: 4px; }
+.home-footer__copy { font-size: 12px; opacity: .8; }
+
+/* ---------- Tiga tombol menu ---------- */
+.hub { display: grid; grid-template-columns: 1fr; gap: 12px; padding-top: 20px; max-width: 560px; }
+.hub[hidden] { display: none; }
+.hub__btn {
+  display: flex; align-items: center; gap: 14px; width: 100%; min-height: 76px; padding: 12px 16px; text-align: left;
+  background: var(--white); border: 1.5px solid var(--line); border-radius: 20px; box-shadow: var(--shadow-sm);
+  transition: transform .15s, box-shadow .2s, border-color .2s;
+}
+.hub__btn:hover { border-color: var(--orange); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.hub__btn:active { transform: scale(.98); }
+.hub__icon {
+  flex: none; width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; color: var(--white);
+  background: var(--olive);
+}
+.hub__btn--cara .hub__icon { background: var(--orange); }
+.hub__btn--sosial .hub__icon { background: var(--brown); }
+.hub__text { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.3; }
+.hub__text b { font-size: 16px; font-weight: 700; }
+.hub__text small { font-size: 13px; color: var(--muted); }
+.hub__chev { flex: none; font-size: 28px; line-height: 1; color: var(--orange); padding-bottom: 3px; }
+
+/* ---------- Panel isi + transisi ---------- */
+.panel { padding-top: 14px; }
+.panel:not([hidden]) { animation: panelIn .35s ease both; }
+.hub:not([hidden]) { animation: panelIn .35s ease both; }
+@keyframes panelIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.panel__bar { padding-bottom: 0; }
+.panel__back {
+  display: inline-flex; align-items: center; gap: 4px; min-height: 42px; padding: 0 16px 0 10px; border-radius: 999px;
+  background: var(--white); border: 1.5px solid var(--line); color: var(--olive-deep); font-weight: 600; font-size: 14px;
+}
+.panel__back:active { transform: scale(.96); }
+.panel .how, .panel .contact { padding-top: 14px; }
+.contact__grid--one { max-width: 520px; margin-inline: auto; grid-template-columns: 1fr !important; }
+
+/* ---------- Tablet & desktop ---------- */
+@media (min-width: 600px) {
+  .hero__card { padding: 40px 32px 44px; }
+  .hero__logo { height: 128px; }
+  .hero__desc { font-size: 16px; max-width: 44ch; }
+  .how__slide { flex-basis: 250px; }
+  .contact__grid { grid-template-columns: 1fr 1fr; align-items: stretch; }
+  .hub { max-width: 600px; }
+  .hub__btn { min-height: 84px; }
+}
+@media (min-width: 960px) {
+  .hero__card { padding: 54px 40px 58px; }
+  .hero__title { font-size: 48px; }
+  .hero__cta { font-size: 20px; min-height: 70px; }
+  .how__viewport { margin-inline: 0; }
+  .how__track { justify-content: center; padding-inline: 0; overflow-x: visible; }
+  .how__slide { flex: 0 0 calc((100% - 48px) / 4); }
+  .how__nav { display: none !important; }
+}
+@media (min-width: 960px) {
+  .hub { max-width: 1200px; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__cta, .panel, .hub { animation: none !important; }
+}

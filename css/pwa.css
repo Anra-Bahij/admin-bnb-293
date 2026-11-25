@@ -1,0 +1,92 @@
+/* ==========================================================================
+   BnB Cemilan — gaya tambahan PWA (splash ringan, tombol install, panduan,
+   banner pembaruan & koneksi). Memakai variabel warna dari style.css.
+   Tidak mengubah tampilan yang sudah ada.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- Splash ringan
+   Hanya tampil saat dibuka sebagai aplikasi terpasang (mode standalone). */
+.pwa-splash { display: none; }
+.pwa-splash-on .pwa-splash {
+  position: fixed; inset: 0; z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 18px; background: var(--cream, #F8F5F0); transition: opacity .35s ease, visibility .35s;
+  padding-bottom: 32px;    /* sama dengan gambar splash iOS: logo sedikit di atas tengah */
+}
+.pwa-splash.is-out { opacity: 0; visibility: hidden; pointer-events: none; }
+.pwa-splash__logo { width: min(38vw, 190px); height: auto; animation: pwaPop .55s cubic-bezier(.2, .8, .2, 1) both; }
+.pwa-splash__dots { display: flex; gap: 8px; height: 10px; }
+.pwa-splash__dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--olive, #556B2F); animation: pwaDot 1s ease-in-out infinite; }
+.pwa-splash__dots i:nth-child(2) { background: var(--orange, #D97706); animation-delay: .15s; }
+.pwa-splash__dots i:nth-child(3) { background: var(--brown, #8B5E3C); animation-delay: .3s; }
+@keyframes pwaPop { from { opacity: 0; transform: scale(.82); } }
+@keyframes pwaDot { 0%, 80%, 100% { transform: translateY(0); opacity: .45; } 40% { transform: translateY(-7px); opacity: 1; } }
+.pwa-splash-on body { overflow: hidden; }
+
+/* ---------------------------------------------------------------- Banner install */
+.pwa-install {
+  position: fixed; z-index: 35; left: 50%; bottom: calc(92px + env(safe-area-inset-bottom));
+  width: min(calc(100% - 24px), 440px); transform: translateX(-50%);
+  display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 14px;
+  background: var(--white, #fff); border: 1.5px solid var(--line, #E9E2D6); border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(45, 45, 45, .18); animation: pwaUp .4s cubic-bezier(.2, .8, .2, 1);
+}
+.pwa-install[hidden] { display: none; }
+.pwa-install__logo { flex: none; width: 46px; height: 46px; border-radius: 12px; background: var(--cream, #F8F5F0); object-fit: contain; padding: 3px; }
+.pwa-install__text { min-width: 0; flex: 1; line-height: 1.3; }
+.pwa-install__text strong { display: block; font-size: 14px; color: var(--dark, #2D2D2D); }
+.pwa-install__text span { display: block; font-size: 12px; color: var(--muted, #6F685E); }
+.pwa-install__go {
+  flex: none; padding: 11px 16px; min-height: 44px; border-radius: 14px; background: var(--orange, #D97706); color: #fff;
+  font-weight: 700; font-size: 14px; box-shadow: 0 4px 12px rgba(217, 119, 6, .3);
+}
+.pwa-install__go:active { background: var(--orange-deep, #B96205); transform: scale(.97); }
+.pwa-install__x { flex: none; width: 32px; height: 44px; font-size: 22px; line-height: 1; color: var(--muted, #6F685E); }
+@keyframes pwaUp { from { opacity: 0; transform: translate(-50%, 24px); } }
+
+/* Tautan permanen di footer */
+.pwa-footlink { display: block; margin: 10px auto 0; padding: 10px 16px; min-height: 44px; font-size: 13px; font-weight: 600; color: var(--olive-deep, #435524); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------------------------------------------------------------- Panduan pasang */
+.pwa-guide { position: fixed; inset: 0; z-index: 95; display: grid; place-items: end center; background: rgba(30, 28, 24, .5); animation: pwaFade .2s ease; }
+.pwa-guide[hidden] { display: none; }
+.pwa-guide__card {
+  width: min(100%, 480px); max-height: 92vh; max-height: 92dvh; overflow: auto; overscroll-behavior: contain;
+  background: var(--cream, #F8F5F0); border-radius: 24px 24px 0 0; padding: 18px 18px calc(22px + env(safe-area-inset-bottom));
+  animation: pwaSheet .3s cubic-bezier(.2, .8, .2, 1);
+}
+@media (min-width: 560px) { .pwa-guide { place-items: center; } .pwa-guide__card { border-radius: 24px; padding-bottom: 22px; } }
+.pwa-guide__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.pwa-guide__head h2 { margin: 0; font-size: 18px; color: var(--olive-deep, #435524); }
+.pwa-guide__close { width: 40px; height: 40px; border-radius: 50%; background: var(--white, #fff); border: 1px solid var(--line, #E9E2D6); font-size: 22px; line-height: 1; }
+.pwa-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 4px; background: #EFE9DD; border-radius: 14px; margin-bottom: 14px; }
+.pwa-tab { padding: 10px 8px; min-height: 44px; border-radius: 11px; font-weight: 600; font-size: 14px; color: var(--muted, #6F685E); }
+.pwa-tab[aria-selected="true"] { background: var(--white, #fff); color: var(--dark, #2D2D2D); box-shadow: var(--shadow-sm, 0 2px 10px rgba(45, 45, 45, .07)); }
+.pwa-steps { list-style: none; margin: 0; padding: 0; counter-reset: s; display: grid; gap: 10px; }
+.pwa-steps li { counter-increment: s; display: flex; gap: 12px; align-items: flex-start; padding: 12px; background: var(--white, #fff); border: 1px solid var(--line, #E9E2D6); border-radius: 14px; font-size: 14px; line-height: 1.5; }
+.pwa-steps li::before { content: counter(s); flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--olive, #556B2F); color: #fff; font-weight: 700; font-size: 13px; }
+.pwa-steps svg { vertical-align: -5px; margin: 0 2px; color: var(--brown, #8B5E3C); }
+.pwa-guide__note { margin: 12px 2px 0; font-size: 12.5px; line-height: 1.55; color: var(--muted, #6F685E); }
+.pwa-guide__ok { display: block; width: 100%; margin-top: 14px; padding: 14px; min-height: 50px; border-radius: 14px; background: var(--olive, #556B2F); color: #fff; font-weight: 700; font-size: 15px; }
+@keyframes pwaFade { from { opacity: 0; } }
+@keyframes pwaSheet { from { transform: translateY(30px); opacity: 0; } }
+
+/* ---------------------------------------------------------------- Banner koneksi & pembaruan */
+.pwa-bar {
+  position: fixed; z-index: 96; left: 50%; top: calc(10px + env(safe-area-inset-top)); transform: translateX(-50%);
+  width: max-content; max-width: calc(100% - 24px); display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px 9px 16px; border-radius: 999px; background: var(--dark, #2D2D2D); color: #fff; font-size: 13px; font-weight: 500;
+  box-shadow: 0 8px 24px rgba(45, 45, 45, .25); animation: pwaDown .3s ease;
+}
+.pwa-bar[hidden] { display: none; }
+.pwa-bar--ok { background: var(--olive-deep, #435524); }
+.pwa-bar--warn { background: #8A4B08; }
+.pwa-bar button { flex: none; padding: 7px 14px; min-height: 36px; border-radius: 999px; background: #fff; color: var(--dark, #2D2D2D); font-weight: 700; font-size: 12.5px; }
+.pwa-bar button:active { transform: scale(.96); }
+@keyframes pwaDown { from { opacity: 0; transform: translate(-50%, -16px); } }
+
+@media (max-width: 359px) { .pwa-install__text span { display: none; } .pwa-install { gap: 8px; padding-left: 10px; } }
+@media (prefers-reduced-motion: reduce) {
+  .pwa-splash__logo, .pwa-install, .pwa-guide, .pwa-guide__card, .pwa-bar { animation: none; }
+  .pwa-splash__dots i { animation: none; opacity: .8; }
+  .pwa-splash-on .pwa-splash { transition: none; }
+}
